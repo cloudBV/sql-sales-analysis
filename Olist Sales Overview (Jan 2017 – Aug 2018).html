@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Olist Sales Overview (Jan 2017 – Aug 2018)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap">
+<style>
+:root{--bg:#f2f4ef;--panel:#fff;--ink:#14261f;--mute:#5d6b64;--line:#d9dfd6;--green:#0e6b52;--amber:#d98e04;--red:#c4381f;--soft:#e4ece6;color-scheme:light;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1815;--panel:#16231e;--ink:#e8efe9;--mute:#98a89f;--line:#2a3b34;--green:#3fbf98;--amber:#f0b429;--red:#ef6b50;--soft:#1e302a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1815;--panel:#16231e;--ink:#e8efe9;--mute:#98a89f;--line:#2a3b34;--green:#3fbf98;--amber:#f0b429;--red:#ef6b50;--soft:#1e302a;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.45}
+main{max-width:1080px;margin:0 auto;padding:36px 20px 56px}
+h1{font-size:clamp(26px,4vw,40px);font-weight:800;letter-spacing:-.02em;margin:0 0 6px}
+.sub{color:var(--mute);margin:0 0 28px;max-width:62ch}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));border-top:2px solid var(--ink);border-bottom:1px solid var(--line);margin-bottom:28px}
+.kpi{padding:16px 18px 14px 0}
+.kpi+.kpi{padding-left:18px;border-left:1px solid var(--line)}
+.kpi b{display:block;font-size:30px;font-weight:800;letter-spacing:-.02em}
+.kpi span{color:var(--mute);font-size:14px}
+section{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 22px;margin-bottom:20px}
+h2{font-size:18px;margin:0 0 4px;font-weight:600}
+.note{color:var(--mute);font-size:14px;margin:0 0 14px;max-width:70ch}
+.hero{border-color:var(--ink);border-width:2px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.grid section{margin:0}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+svg{width:100%;height:auto;display:block;overflow:visible}
+svg text{fill:var(--mute);font:12px "Bricolage Grotesque",system-ui,sans-serif}
+.rv{display:grid;grid-template-columns:150px 1fr 90px;gap:12px;align-items:center;margin:10px 0}
+.rv .t{height:30px;background:var(--soft);border-radius:4px;overflow:hidden}
+.rv .t i{display:block;height:100%;border-radius:4px}
+.rv strong{font-size:22px}
+.rv small{color:var(--mute);display:block;font-size:12px}
+@media(max-width:560px){.rv{grid-template-columns:1fr 70px}.rv>div:first-child{grid-column:1/-1}}
+.legend{display:flex;gap:14px;font-size:13px;color:var(--mute);margin-bottom:6px;flex-wrap:wrap}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px}
+</style>
+</head>
+<body>
+<main>
+<h1>Olist Sales Overview</h1>
+<p class="sub">Brazilian e-commerce orders, January 2017 to August 2018. Revenue in Brazilian reais (R$).</p>
+<div class="kpis" id="kpis"></div>
+
+<section class="hero">
+<h2>Late deliveries sink review scores</h2>
+<p class="note">Average review score by how late the order arrived. Orders 8+ days late score less than half of on-time orders.</p>
+<div id="reviews"></div>
+</section>
+
+<section style="margin-bottom:20px">
+<h2>Monthly revenue</h2>
+<p class="note">Revenue peaked in November 2017 (Black Friday) and has held around R$1M a month since early 2018.</p>
+<div id="rev"></div>
+</section>
+
+<div class="grid">
+<section>
+<h2>Late delivery rate by month</h2>
+<p class="note">Share of delivered orders that arrived after the promised date.</p>
+<div class="legend"><span><i style="background:var(--red)"></i>Above 10%</span><span><i style="background:var(--amber)"></i>10% or below</span></div>
+<div id="late"></div>
+</section>
+<section>
+<h2>Top 10 categories by revenue</h2>
+<p class="note">Out of 74 product categories.</p>
+<div id="cats"></div>
+</section>
+</div>
+</main>
+<script>
+var MR=[["2017-01",127482.37,750],["2017-02",271239.32,1653],["2017-03",414330.95,2546],["2017-04",390812.40,2303],["2017-05",566851.40,3546],["2017-06",490050.37,3135],["2017-07",566299.08,3872],["2017-08",645832.36,4193],["2017-09",701077.49,4150],["2017-10",751117.01,4478],["2017-11",1153364.20,7289],["2017-12",843078.29,5513],["2018-01",1077887.46,7069],["2018-02",966168.41,6555],["2018-03",1120598.24,7003],["2018-04",1132878.93,6798],["2018-05",1128774.52,6749],["2018-06",1011978.29,6099],["2018-07",1027807.28,6159],["2018-08",985491.64,6351]];
+var LATE=[3.07,3.21,5.58,7.86,3.61,3.86,3.43,3.32,5.20,5.29,14.31,8.38,6.56,15.99,21.36,5.31,8.24,1.36,4.48,10.39];
+var DELIV=[750,1653,2546,2303,3545,3135,3872,4193,4150,4478,7288,5513,7069,6555,7003,6798,6749,6096,6156,6351];
+var RV=[["On time or early",4.29,88163,"var(--green)"],["1–3 days late",3.77,2636,"var(--amber)"],["4–7 days late",2.32,1773,"#e0652b"],["8+ days late",1.73,3252,"var(--red)"]];
+var CAT=[["health_beauty",1412089.53],["watches_gifts",1264333.12],["bed_bath_table",1225209.26],["sports_leisure",1118256.91],["computers_accessories",1032723.77],["furniture_decor",880329.92],["housewares",758392.25],["cool_stuff",691680.89],["auto",669454.75],["garden_tools",567145.68]];
+var MN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function lab(m){return MN[+m.slice(5)-1]+" "+m.slice(2,4)}
+function $(i){return document.getElementById(i)}
+function R(n){return "R$"+n.toLocaleString("en-US",{maximumFractionDigits:0})}
+function M(n){return "R$"+(n/1e6).toFixed(2)+"M"}
+
+var totRev=0,totOrd=0,lateW=0,delW=0,sc=0,sn=0,i;
+for(i=0;i<MR.length;i++){totRev+=MR[i][1];totOrd+=MR[i][2];lateW+=LATE[i]*DELIV[i];delW+=DELIV[i]}
+for(i=0;i<RV.length;i++){sc+=RV[i][1]*RV[i][2];sn+=RV[i][2]}
+var k=[[M(totRev),"Total revenue"],[totOrd.toLocaleString("en-US"),"Orders"],[R(totRev/totOrd),"Average order value"],[(lateW/delW).toFixed(1)+"%","Orders delivered late"],[(sc/sn).toFixed(2)+" / 5","Average review score"]];
+$("kpis").innerHTML=k.map(function(x){return '<div class="kpi"><b>'+x[0]+'</b><span>'+x[1]+'</span></div>'}).join("");
+
+$("reviews").innerHTML=RV.map(function(r){return '<div class="rv"><div>'+r[0]+'<small>'+r[2].toLocaleString("en-US")+' orders</small></div><div class="t"><i style="width:'+(r[1]/5*100)+'%;background:'+r[3]+'"></i></div><strong>'+r[1].toFixed(2)+'</strong></div>'}).join("");
+
+(function(){
+var W=900,H=300,L=56,B=30,T=10,Rt=10,max=1200000,n=MR.length;
+var x=function(i){return L+i*(W-L-Rt)/(n-1)},y=function(v){return T+(H-T-B)*(1-v/max)};
+var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Monthly revenue line chart">';
+for(var g=0;g<=4;g++){var v=g*300000;s+='<line x1="'+L+'" x2="'+(W-Rt)+'" y1="'+y(v)+'" y2="'+y(v)+'" stroke="var(--line)"/><text x="'+(L-8)+'" y="'+(y(v)+4)+'" text-anchor="end">'+(v?"R$"+(v/1e6).toFixed(1)+"M":"0")+'</text>'}
+var p=MR.map(function(r,i){return (i?"L":"M")+x(i)+","+y(r[1])}).join("");
+s+='<path d="'+p+'L'+x(n-1)+','+y(0)+'L'+x(0)+','+y(0)+'Z" fill="var(--green)" opacity=".12"/><path d="'+p+'" fill="none" stroke="var(--green)" stroke-width="3" stroke-linejoin="round"/>';
+MR.forEach(function(r,i){s+='<circle cx="'+x(i)+'" cy="'+y(r[1])+'" r="4" fill="var(--green)"><title>'+lab(r[0])+": "+R(r[1])+" from "+r[2].toLocaleString("en-US")+' orders</title></circle>';if(i%3==0)s+='<text x="'+x(i)+'" y="'+(H-8)+'" text-anchor="middle">'+lab(r[0])+'</text>'});
+$("rev").innerHTML=s+'</svg>';
+})();
+
+(function(){
+var W=440,H=260,L=34,B=28,T=8,max=25,n=LATE.length,bw=(W-L)/n;
+var y=function(v){return T+(H-T-B)*(1-v/max)};
+var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Late delivery rate by month bar chart">';
+[0,10,20].forEach(function(v){s+='<line x1="'+L+'" x2="'+W+'" y1="'+y(v)+'" y2="'+y(v)+'" stroke="var(--line)"/><text x="'+(L-6)+'" y="'+(y(v)+4)+'" text-anchor="end">'+v+'%</text>'});
+LATE.forEach(function(v,i){var cx=L+i*bw;s+='<rect x="'+(cx+2)+'" y="'+y(v)+'" width="'+(bw-4)+'" height="'+(y(0)-y(v))+'" rx="2" fill="'+(v>10?"var(--red)":"var(--amber)")+'"><title>'+lab(MR[i][0])+": "+v.toFixed(2)+'% late</title></rect>';if(i%4==0)s+='<text x="'+(cx+bw/2)+'" y="'+(H-8)+'" text-anchor="middle">'+lab(MR[i][0])+'</text>'});
+$("late").innerHTML=s+'</svg>';
+})();
+
+(function(){
+var W=440,rowH=30,L=150,Rt=60,H=CAT.length*rowH+4,max=1500000;
+var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Top 10 categories by revenue">';
+CAT.forEach(function(c,i){var w=(W-L-Rt)*c[1]/max,yy=i*rowH+4;s+='<text x="'+(L-8)+'" y="'+(yy+16)+'" text-anchor="end">'+c[0].replace(/_/g," ")+'</text><rect x="'+L+'" y="'+yy+'" width="'+w+'" height="20" rx="3" fill="var(--green)"><title>'+R(c[1])+'</title></rect><text x="'+(L+w+6)+'" y="'+(yy+15)+'">'+(c[1]/1e6).toFixed(2)+'M</text>'});
+$("cats").innerHTML=s+'</svg>';
+})();
+</script>
+</body>
+</html>
